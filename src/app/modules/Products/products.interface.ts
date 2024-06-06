@@ -1,14 +1,7 @@
 import { Schema } from 'mongoose';
 
-export enum TVariantType {
-  Color = 'color',
-  Size = 'size',
-  Capacity = 'capacity',
-  Switch = 'switch',
-  Strap = 'strap',
-}
 export type TVariant = {
-  type: TVariantType;
+  type: string;
   value: string;
 };
 
@@ -16,8 +9,8 @@ export type TInventory = {
   quantity: number;
   inStock: boolean;
 };
+
 export type TProduct = {
-  id?: string;
   name: string;
   description: string;
   price: number;

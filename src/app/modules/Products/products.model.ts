@@ -1,13 +1,8 @@
 import { Schema, model } from 'mongoose';
-import {
-  TInventory,
-  TProduct,
-  TVariant,
-  TVariantType,
-} from './products.interface';
+import { TInventory, TProduct, TVariant } from './products.interface';
 //variant schema-sub schema
 const variantSchema = new Schema<TVariant>({
-  type: { type: String, enum: Object.values(TVariantType), required: true },
+  type: { type: String, required: true },
   value: { type: String, required: true },
 });
 //Inventory schema -sub schema
@@ -23,13 +18,19 @@ const inventorySchema = new Schema<TInventory>({
 });
 //creating products schema
 const productSchema = new Schema<TProduct>({
-  id: { type: String, required: false },
   name: { type: String, required: true },
   description: { type: String, required: true },
   price: { type: Number, required: true },
   category: {
     type: String,
-    enum: ['Electronics', 'Fitness', 'Footwear', 'Kitchen', 'Wearable'],
+    enum: [
+      'Electronics',
+      'Fitness',
+      'Footwear',
+      'Kitchen',
+      'Wearable',
+      'Audio',
+    ],
     required: true,
   },
   tags: { type: [String], required: true },
@@ -43,4 +44,4 @@ const productSchema = new Schema<TProduct>({
   },
 });
 //creating model on products schema
-const ProductModel = model<TProduct>('ProductModel', productSchema);
+export const ProductModel = model<TProduct>('Product', productSchema);
