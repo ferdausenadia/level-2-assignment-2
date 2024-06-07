@@ -25,11 +25,11 @@ const createOrder = async (req: Request, res: Response) => {
       message: 'Order created successfully!',
       data: responseData,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong',
-      error: err.message,
+      error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -61,11 +61,11 @@ const getAllOrders = async (req: Request, res: Response) => {
         : 'Orders fetched successfully!',
       data: filteredOrders,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong',
-      error: err.message,
+      error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };

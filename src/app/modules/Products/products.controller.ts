@@ -1,6 +1,6 @@
-import { Request, RequestHandler, Response } from 'express';
+import { Request, Response } from 'express';
 import { ProductServices } from './products.service';
-import { error } from 'console';
+
 import { productValidationSchema } from './products.validation';
 
 //************Product Insertion Controller************
@@ -29,12 +29,12 @@ const insertProduct = async (req: Request, res: Response) => {
       message: 'Product created successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     //error handling
     res.status(500).json({
       success: false,
       message: 'something went wrong',
-      error: err,
+      error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -61,11 +61,11 @@ const getAllProducts = async (req: Request, res: Response) => {
       message: 'Products fetched successfully!',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong',
-      error: err.message,
+      error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -89,11 +89,11 @@ const getProductById = async (req: Request, res: Response) => {
       message: 'Product fetched successfully!',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       success: false,
       message: 'something went wrong',
-      error: err,
+      error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -127,12 +127,12 @@ const updateProduct = async (req: Request, res: Response) => {
       message: 'Product updated successfully',
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     //error handling
     res.status(500).json({
       success: false,
       message: 'something went wrong',
-      error: err,
+      error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };
@@ -153,11 +153,11 @@ const deleteProductById = async (req: Request, res: Response) => {
       message: 'Product deleted successfully!',
       data: null,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
     res.status(500).json({
       success: false,
       message: 'Something went wrong',
-      error: err.message,
+      error: err instanceof Error ? err.message : 'Unknown error',
     });
   }
 };

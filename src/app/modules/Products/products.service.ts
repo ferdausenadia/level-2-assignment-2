@@ -30,8 +30,10 @@ const UpdateProductIntoDB = async (
       return updatedProduct;
     })
     .catch((error) => {
-      console.error('Error updating product:', error);
-      return null;
+      throw new Error(
+        'Error updating product: ' +
+          (error instanceof Error ? error.message : 'Unknown error'),
+      );
     });
 };
 
@@ -54,8 +56,11 @@ const searchProductsFromDb = async (
       $or: [{ name: regex }, { description: regex }, { tags: regex }],
     });
     return matchingProducts;
-  } catch (error: any) {
-    throw new Error('Error searching for products: ' + error.message);
+  } catch (err) {
+    throw new Error(
+      'Error searching for products: ' +
+        (err instanceof Error ? err.message : 'Unknown error'),
+    );
   }
 };
 export const ProductServices = {
