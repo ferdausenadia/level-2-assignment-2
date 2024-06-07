@@ -129,3 +129,13 @@ After installing and starting the application, you can access the API at `http:/
 ## Method: PUT
 
 ## Request Body: (Same as Create a Product)
+
+### Get All Orders or Orders by Email
+
+## Endpoint: /api/orders
+
+## Method: GET
+
+## Query Parameters:
+
+## email (optional): String to filter orders by email.
