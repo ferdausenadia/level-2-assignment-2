@@ -40,11 +40,22 @@ const insertProduct = async (req: Request, res: Response) => {
 };
 //****************Product Insertion End****************
 
-//***************Get All Products Start***************
-export const getAllProducts = async (req: Request, res: Response) => {
+//***************Get All Products and get by search term Start***************
+const getAllProducts = async (req: Request, res: Response) => {
   try {
+    const { searchTerm } = req.query;
+    if (searchTerm) {
+      const products = await ProductServices.searchProductsFromDb(
+        searchTerm as string,
+      );
+      return res.status(200).json({
+        success: true,
+        message: `Products matching search term '${searchTerm}' fetched successfully!`,
+        data: products,
+      });
+    }
+
     const result = await ProductServices.GetAllProductsFromDB();
-    //user response after finding data
     res.status(200).json({
       success: true,
       message: 'Products fetched successfully!',
@@ -53,11 +64,12 @@ export const getAllProducts = async (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'something went wrong',
-      error: err,
+      message: 'Something went wrong',
+      error: err.message,
     });
   }
 };
+
 //**********get all producst end***************
 
 //**********Get Products by Id start***********
@@ -149,24 +161,6 @@ const deleteProductById = async (req: Request, res: Response) => {
     });
   }
 };
-//search product
-const searchProducts = async (req: Request, res: Response) => {
-  try {
-    const searchTerm = req.query.searchTerm as string;
-    const products = await ProductServices.searchProductsFromDb(searchTerm);
-    res.status(200).json({
-      success: true,
-      message: `Products matching search term '${searchTerm}' fetched successfully!`,
-      data: products,
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'An error occurred while searching for products.',
-      error: error.message,
-    });
-  }
-};
 
 export const ProductControllers = {
   insertProduct,
@@ -174,5 +168,4 @@ export const ProductControllers = {
   getProductById,
   updateProduct,
   deleteProductById,
-  searchProducts,
 };
